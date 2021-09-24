@@ -4,27 +4,44 @@ describe("Test", () => {
     it("example", () => {
         return transform(
             `
-        import a from 'b'
-        import * as c from './d'
-        import { e as f, g as h, i } from 'j'
-        import k, { l as m } from 'n'
-        import o, * as p from "./q"
-        import r, { s as t, u } from "/v"
-        import fs from 'fs'
-      
+        import a from "b";
+        import * as c from "./d";
+        import { e as f, g as h, i } from "j";
+        import d, { 
+            CCard,
+            CCalendar,
+        } from "shst-campus";
+        import k, { l as m } from "n";
+        import o, * as p from "./q";
+        import r, { s as t, u } from "/v";
+        import fs from "fs";
+
         ;(async () => {
-          await import("w")
-          await import("x" + "y")
-        })()
-      `,
+          await import("component");
+          await import("component" + "/s1");
+        })();`,
             {
-                name: "j",
-                path: "src/components",
-                main: "index",
+                name: "shst-campus",
+                path: "lib",
             }
         ).then(res => {
-            console.log(res);
-            expect(1 + 1).toBe(2);
+            expect(res).toBe(`
+        import a from "b";
+        import * as c from "./d";
+        import { e as f, g as h, i } from "j";
+        import d from "shst-campus";
+import CCard from "shst-campus/lib/c-card/c-card";
+import CCalendar from "shst-campus/lib/c-calendar/c-calendar";
+;
+        import k, { l as m } from "n";
+        import o, * as p from "./q";
+        import r, { s as t, u } from "/v";
+        import fs from "fs";
+
+        ;(async () => {
+          await import("component");
+          await import("component" + "/s1");
+        })();`);
         });
     });
 });
