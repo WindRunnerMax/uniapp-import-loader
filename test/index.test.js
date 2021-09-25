@@ -8,7 +8,7 @@ describe("Test", () => {
         import * as c from "./d";
         import { e as f, g as h, i } from "j";
         import d, { 
-            CCard,
+            CCard as Layout,
             CCalendar,
         } from "shst-campus";
         import k, { l as m } from "n";
@@ -30,7 +30,7 @@ describe("Test", () => {
         import * as c from "./d";
         import { e as f, g as h, i } from "j";
         import d from "shst-campus";
-import CCard from "shst-campus/lib/c-card/c-card";
+import Layout from "shst-campus/lib/c-card/c-card";
 import CCalendar from "shst-campus/lib/c-calendar/c-calendar";
 ;
         import k, { l as m } from "n";

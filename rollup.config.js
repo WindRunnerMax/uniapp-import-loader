@@ -4,6 +4,7 @@ import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import path from "path";
 import json from "@rollup/plugin-json";
+import { uglify } from "rollup-plugin-uglify";
 const packageJson = require("./package.json");
 
 module.exports = {
@@ -26,6 +27,7 @@ module.exports = {
             extensions: [".ts"],
         }),
         json(),
+        uglify(),
     ],
     external: Object.keys(packageJson.dependencies || {}),
 };

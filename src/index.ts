@@ -33,7 +33,7 @@ export const transform = (
                     item.importClause.named.forEach(v => {
                         parsedImports.push(
                             buildImportStatement(
-                                v.specifier, // as 会被舍弃 `${v.specifier} as ${v.binding}`,
+                                v.binding, // as 会被舍弃 `${v.specifier} as ${v.binding}`,
                                 `${options.name}/${options.path}/${transformName(v.specifier)}/${
                                     options.main || transformName(v.specifier)
                                 }`
