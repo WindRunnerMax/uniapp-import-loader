@@ -1,12 +1,16 @@
 {
   "name": "uniapp-import-loader",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "uniapp import on demand loader",
   "main": "src/loader.js",
   "scripts": {
     "build": "rollup -c",
     "test": "npm run build & jest"
   },
+  "repository": {
+		"type": "git",
+		"url": "https://github.com/WindrunnerMax/uniapp-import-loader"
+	},
   "author": "Czy",
   "license": "MIT",
   "dependencies": {},
