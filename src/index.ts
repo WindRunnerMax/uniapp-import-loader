@@ -8,7 +8,15 @@ export const transform = (
     source: string,
     options: { name: string; path: string; main?: string }
 ): Promise<string> => {
-    return parseImports(source)
+    const segmentStartResult = /<script[\s\S]*?>/.exec(source);
+    const scriptEndResult = /<\/script>/.exec(source);
+    if (!segmentStartResult || !scriptEndResult) return Promise.resolve(source);
+    const startIndex = segmentStartResult.index + segmentStartResult[0].length;
+    const endIndex = scriptEndResult.index;
+    const preSegment = source.slice(0, startIndex);
+    const middleSegment = source.slice(startIndex, endIndex);
+    const endSegment = source.slice(endIndex, source.length);
+    return parseImports(middleSegment)
         .then(allImports => {
             let segmentStart = 0;
             let segmentEnd = 0;
@@ -19,7 +27,7 @@ export const transform = (
                     continue;
                 }
                 segmentEnd = item.startIndex;
-                target.push(source.slice(segmentStart, segmentEnd));
+                target.push(middleSegment.slice(segmentStart, segmentEnd));
                 if (item.importClause && item.moduleSpecifier.value) {
                     const parsedImports: Array<string> = [];
                     if (item.importClause.default) {
@@ -44,8 +52,8 @@ export const transform = (
                 }
                 segmentStart = item.endIndex;
             }
-            target.push(source.slice(segmentStart, source.length));
-            return target.join("");
+            target.push(middleSegment.slice(segmentStart, middleSegment.length));
+            return preSegment + target.join("") + endSegment;
         })
         .catch((err: Error) => {
             console.error("uniapp-import-loader parse error", err);

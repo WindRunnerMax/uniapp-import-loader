@@ -1,8 +1,8 @@
 {
   "name": "uniapp-import-loader",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "uniapp import on demand loader",
-  "main": "dist/index.js",
+  "main": "src/loader.js",
   "scripts": {
     "build": "rollup -c",
     "test": "npm run build & jest"
