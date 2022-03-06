@@ -5,6 +5,10 @@
 $ yarn add -D uniapp-import-loader
 ```
 
+## webpack-loader
+
+`webpack-loader`的解决方案，与`babel-plugin`解决方案二选一，需要配置`vue.config.js`，详细配置可以查看`https://github.com/SHST-SDUST/SHST-PLUS/blob/master/vue.config.js`。
+
 ```javascript
 // vue.config.js
 const path = require("path");
@@ -29,4 +33,23 @@ module.exports = {
         // ..
     },
 };
+```
+
+## babel-plugin
+
+`babel-plugin`的解决方案，与`webpack-loader`解决方案二选一，需要配置`babel.config.js`，详细配置可以查看`https://github.com/SHST-SDUST/SHST-PLUS/blob/master/babel.config.js`。
+
+```javascript
+// ...
+process.UNI_LIBRARIES = ["shst-campus"];
+plugins.push([
+    require("uniapp-import-loader/dist/babel-plugin-dynamic-import"),
+    {
+        libraryName: "shst-campus",
+        libraryPath: "lib",
+    },
+    // import { CCard } from "shst-campus";
+    // => import CCard from "shst-campus/lib/c-card/c-card";
+]);
+// ...
 ```

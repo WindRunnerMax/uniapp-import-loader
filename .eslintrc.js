@@ -1,5 +1,6 @@
 module.exports = {
     extends: ["eslint:recommended", "plugin:prettier/recommended"],
+    ignorePatterns: ["node_modules", "build", "dist", "coverage"],
     env: {
         browser: true,
         node: true,
