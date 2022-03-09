@@ -1,12 +1,16 @@
 import parseImports from "parse-imports";
 
-const transformName = (str: string): string => str.replace(/\B([A-Z])/g, "-$1").toLowerCase();
+type customPathFn = (name: string) => string;
+
+export const transformName = (str: string): string =>
+    str.replace(/\B([A-Z])/g, "-$1").toLowerCase();
+
 const buildImportStatement = (itemModules: string, itemFrom: string): string =>
     `import ${itemModules} from "${itemFrom}";\n`;
 
 export const transform = (
     source: string,
-    options: { name: string; path: string; main?: string }
+    options: { name: string; path: string | customPathFn; main?: string }
 ): Promise<string> => {
     const segmentStartResult = /<script[\s\S]*?>/.exec(source);
     const scriptEndResult = /<\/script>/.exec(source);
@@ -42,9 +46,11 @@ export const transform = (
                         parsedImports.push(
                             buildImportStatement(
                                 v.binding, // as 会被舍弃 `${v.specifier} as ${v.binding}`,
-                                `${options.name}/${options.path}/${transformName(v.specifier)}/${
-                                    options.main || transformName(v.specifier)
-                                }`
+                                typeof options.path === "function"
+                                    ? options.path(v.specifier)
+                                    : `${options.name}/${options.path}/${transformName(
+                                          v.specifier
+                                      )}/${options.main || transformName(v.specifier)}`
                             )
                         );
                     });
